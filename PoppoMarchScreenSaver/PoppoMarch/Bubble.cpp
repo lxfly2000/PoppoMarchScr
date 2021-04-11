@@ -32,6 +32,10 @@ int Bubble::RunFrame()
 	if (frameCounter % (fps / 2) == 0)
 		SetAccVA(GetRand(BUBBLE_MAX_ACC), CalcLineAngle(posX, posY, toX, toY) + DegToRad(GetRand(90)) - DX_PI / 4);
 	DrawCircleAA(posX, posY, radius, 50, color);
+#ifdef _DEBUG
+	DrawLine(posX, posY, posX + aX*10, posY + aY*10, 0xFFFF0000);
+	DrawCircle(posX, posY, aF*10, 0xFF0000FF, FALSE);
+#endif
 	frameCounter = (frameCounter + 1) % fps;
 	return 0;
 }
