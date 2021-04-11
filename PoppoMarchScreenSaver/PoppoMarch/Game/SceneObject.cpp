@@ -143,6 +143,8 @@ size_t SceneObject::GetChildCount()
 
 void SceneObject::SetLayer(int n)
 {
+	if (n < 0)
+		n = std::max(-MAX_LAYER_COUNT, n) + MAX_LAYER_COUNT;
 	layer = std::min(std::max(0, n), MAX_LAYER_COUNT - 1);
 }
 

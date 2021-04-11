@@ -12,8 +12,9 @@ public:
 	//0=全屏幕，1=窗口
 	virtual void ChangeWindowed(int);
 	virtual int GetIsWindowed();
+	//注意考虑需要重新加载资源的情况
 	virtual int Init()override;
-	//DEMO函数，不要在继承类中调用
+	//DEMO函数，不要在继承类中调用，如若调用请用SceneObject::RunFrame
 	virtual int RunFrame()override;
 private:
 	int resolutionWidth, resolutionHeight,isWindowed;

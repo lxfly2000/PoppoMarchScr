@@ -2,7 +2,7 @@
 #include "FPSMeter.h"
 
 FPSMeter::FPSMeter() :tick_prev(0), tick_now(0), frame_count(0), design_fps(0), current_fps(0.0f),
-acceptable_min_fps(0), low_fps_counter(0),SceneObject()
+acceptable_min_fps(0), low_fps_counter(0),show_fps(false),pos_x(0),pos_y(0),color(0xFFFFFFFF),SceneObject()
 {
 }
 
@@ -27,6 +27,8 @@ int FPSMeter::RunFrame()
 			low_fps_counter = 0;
 		}
 	}
+	if (show_fps)
+		DrawFormatString(pos_x, pos_y, color, TEXT("FPS:%6.2f"), current_fps);
 	return 0;
 }
 
@@ -40,4 +42,65 @@ float FPSMeter::CalcFPS()
 float FPSMeter::GetFPS() const
 {
 	return current_fps;
+}
+
+void FPSMeter::SetShowFPS(bool s)
+{
+	show_fps = s;
+}
+
+bool FPSMeter::GetShowFPS()
+{
+	return show_fps;
+}
+
+void FPSMeter::SetPos(int n)
+{
+	int& w = pos_x, & h = pos_y;
+	GetDrawScreenSize(&w, &h);
+	int x, y, z;
+	GetDrawStringSize(&x, &y, &z, TEXT("FPS:000.00"), 10);
+	switch (n)
+	{
+	case 0:default:
+		pos_x = pos_y = 0;
+		break;
+	case 1:
+		pos_x = (w - x) / 2;
+		pos_y = 0;
+		break;
+	case 2:
+		pos_x = w - x;
+		pos_y = 0;
+		break;
+	case 3:
+		pos_x = 0;
+		pos_y = (h - y) / 2;
+		break;
+	case 4:
+		pos_x = (w - x) / 2;
+		pos_y = (h - y) / 2;
+		break;
+	case 5:
+		pos_x = w - x;
+		pos_y = (h - y) / 2;
+		break;
+	case 6:
+		pos_x = 0;
+		pos_y = h - y;
+		break;
+	case 7:
+		pos_x = (w - x) / 2;
+		pos_y = h - y;
+		break;
+	case 8:
+		pos_x = w - x;
+		pos_y = h - y;
+		break;
+	}
+}
+
+void FPSMeter::SetColor(int c)
+{
+	color = c;
 }
