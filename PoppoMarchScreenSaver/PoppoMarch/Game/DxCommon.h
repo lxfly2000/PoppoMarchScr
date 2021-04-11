@@ -18,3 +18,5 @@ exit(-1);\
 #define ZCHECK(expression) BCHECK((expression)==0)
 
 #define MsToFrames(ms) ((ms)*GetRefreshRate()/1000)
+#define DegToRad(d) ((d)*DX_PI/180)
+#define RadToDeg(r) ((r)*180/DX_PI)

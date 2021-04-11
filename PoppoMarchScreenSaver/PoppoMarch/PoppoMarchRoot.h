@@ -3,6 +3,7 @@
 #include "Game/FPSMeter.h"
 #include "Game/KeyTrigger.h"
 #include "BackgroundScene.h"
+#include "BubbleScene.h"
 
 class PoppoMarchRoot :public DxRootScene
 {
@@ -20,4 +21,5 @@ private:
 	int optionShowFps;
 	int mouseHideCounter;
 	BackgroundScene bg;
+	BubbleScene bb;
 };

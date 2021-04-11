@@ -32,6 +32,8 @@ int PoppoMarchRoot::Init()
 	AddChild(&ktEnter);
 	AddChild(&ktF11);
 	AddChild(&bg);
+	AddChild(&bb);
+	SRand(GetNowCount());
 	return DxRootScene::Init();
 }
 

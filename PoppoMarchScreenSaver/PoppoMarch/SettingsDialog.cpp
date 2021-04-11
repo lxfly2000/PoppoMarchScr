@@ -4,7 +4,7 @@
 
 #include <windowsx.h>
 
-WNDPROC stProc;
+static WNDPROC stProc;
 
 INT_PTR CALLBACK LIstProc(HWND hwnd, UINT msg, WPARAM w, LPARAM l)
 {

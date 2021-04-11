@@ -3,8 +3,8 @@
 #include <ShlObj.h>
 #include <Shlwapi.h>
 
-char iniPath[MAX_PATH];
-LPCSTR keyList[] = { KEY_SHOW_FPS,KEY_PLAY_BGM,KEY_ANIMATION_SPEED,KEY_CLOSE_BY_CLICKING };
+static char iniPath[MAX_PATH];
+static LPCSTR keyList[] = { KEY_SHOW_FPS,KEY_PLAY_BGM,KEY_ANIMATION_SPEED,KEY_CLOSE_BY_CLICKING };
 
 BOOL InitConfigFile()
 {
