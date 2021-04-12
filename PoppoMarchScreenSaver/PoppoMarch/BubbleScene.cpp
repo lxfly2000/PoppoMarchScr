@@ -11,6 +11,7 @@
 #define BUBBLE_COLOR_LEVELS 10
 #define BUBBLE_MAX_COUNT 50
 #define CHANGE_TARGETING_POINT_TIME_SECONDS 10
+#define BUBBLE_COUNT_RANGE_DELTA 20
 
 int GetBubbleColor(int n)
 {
@@ -79,7 +80,8 @@ int BubbleScene::RunFrame()
 			bubble->SetToPos(floatingPointX[targetingPoint], floatingPointY[targetingPoint]);
 		}
 	}
-	if (frameCounter % (fps / 10) == 0 && BUBBLE_MAX_COUNT - 10 + GetRand(20) > GetChildCount())
+	//这个判断是瞎写的，勿当真（
+	if (frameCounter % (fps / BUBBLE_MAX_SPEED / BUBBLE_MAX_ACC) == 0 && BUBBLE_MAX_COUNT - BUBBLE_COUNT_RANGE_DELTA / 2 + GetRand(BUBBLE_COUNT_RANGE_DELTA) > GetChildCount())
 	{
 		Bubble* bubble = new Bubble();
 		bubble->SetPos(GetRand(resolutionWidth), GetRand(resolutionHeight));

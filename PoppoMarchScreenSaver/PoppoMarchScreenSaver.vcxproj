@@ -195,6 +195,7 @@
     <ClInclude Include="PoppoMarch\Game\SceneObject.h" />
     <ClInclude Include="PoppoMarch\PoppoMarchGame.h" />
     <ClInclude Include="PoppoMarch\PoppoMarchRoot.h" />
+    <ClInclude Include="PoppoMarch\PoppoScene.h" />
     <ClInclude Include="PoppoMarch\SettingsDialog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ScreenSaver.h" />
