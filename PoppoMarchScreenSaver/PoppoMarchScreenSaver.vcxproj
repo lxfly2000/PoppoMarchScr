@@ -178,6 +178,7 @@
     <ClCompile Include="PoppoMarch\Game\SceneObject.cpp" />
     <ClCompile Include="PoppoMarch\PoppoMarchGame.cpp" />
     <ClCompile Include="PoppoMarch\PoppoMarchRoot.cpp" />
+    <ClCompile Include="PoppoMarch\PoppoScene.cpp" />
     <ClCompile Include="PoppoMarch\SettingsDialog.cpp" />
     <ClCompile Include="ScreenSaver.cpp" />
     <ClCompile Include="WinMain.cpp" />
