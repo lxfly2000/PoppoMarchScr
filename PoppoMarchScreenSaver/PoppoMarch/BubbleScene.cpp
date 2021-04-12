@@ -85,18 +85,18 @@ int BubbleScene::RunFrame()
 	{
 		Bubble* bubble = new Bubble();
 		bubble->SetPos(GetRand(resolutionWidth), GetRand(resolutionHeight));
-		if (targetingPoint)
+		if (targetingPoint)//向右
 		{
-			if (bubble->GetPosX() > resolutionWidth / 2)
+			if ((resolutionHeight - bubble->GetPosY())*resolutionWidth > bubble->GetPosX()*resolutionHeight)//在左边出现
 				bubble->SetPos(-BUBBLE_MAX_RADIUS * 2, bubble->GetPosY());
-			else
+			else//在下边出现
 				bubble->SetPos(bubble->GetPosX(), resolutionHeight + BUBBLE_MAX_RADIUS * 2);
 		}
-		else
+		else//向左
 		{
-			if (bubble->GetPosX() < resolutionWidth / 2)
+			if (bubble->GetPosY()*resolutionWidth < bubble->GetPosX()*resolutionHeight)//在右边出现
 				bubble->SetPos(resolutionWidth + BUBBLE_MAX_RADIUS * 2, bubble->GetPosY());
-			else
+			else//在下边出现
 				bubble->SetPos(bubble->GetPosX(), resolutionHeight + BUBBLE_MAX_RADIUS * 2);
 		}
 		bubble->SetToPos(floatingPointX[targetingPoint], floatingPointY[targetingPoint]);

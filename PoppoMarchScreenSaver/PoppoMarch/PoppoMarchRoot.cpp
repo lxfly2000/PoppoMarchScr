@@ -39,7 +39,7 @@ int PoppoMarchRoot::Init()
 
 int PoppoMarchRoot::RunFrame()
 {
-	ClearDrawScreen();
+	//ClearDrawScreen();
 	if (ProcessInput() == 1)
 		return 0;
 	if (fadein_counter < fadein_frames)
