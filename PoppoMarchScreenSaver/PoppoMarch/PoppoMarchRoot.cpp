@@ -22,6 +22,7 @@ int PoppoMarchRoot::Init()
 	SetResolution(1280, 720);
 	if (!DxLib_IsInit())
 		ChangeWindowed(FALSE);
+	SetAlwaysRunFlag(TRUE);
 	SetWindowText(TEXT("Poppo March"));
 
 	fadein_frames = FADEIN_TIME_MS * GetRefreshRate() / 1000;
@@ -39,7 +40,7 @@ int PoppoMarchRoot::Init()
 
 int PoppoMarchRoot::RunFrame()
 {
-	//ClearDrawScreen();
+	ClearDrawScreen();
 	if (ProcessInput() == 1)
 		return 0;
 	if (fadein_counter < fadein_frames)
