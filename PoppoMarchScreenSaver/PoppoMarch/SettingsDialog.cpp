@@ -41,7 +41,8 @@ void OnInitAboutDialog(HWND hwnd)
 	RECT rs,re;
 	rs.right = bmp.bmWidth;
 	rs.bottom = bmp.bmHeight;
-	GetClientRect(hEdit, &re);
+	GetWindowRect(hEdit, &re);
+	re.bottom -= re.top;
 	stProc = (WNDPROC)GetWindowLongPtr(hStatic, GWLP_WNDPROC);
 	SetWindowLongPtr(hStatic, GWLP_WNDPROC, (LONG_PTR)LIstProc);
 	SetWindowPos(hStatic, NULL, NULL, NULL, re.bottom*rs.right/rs.bottom, re.bottom, SWP_NOZORDER | SWP_NOMOVE);

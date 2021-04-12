@@ -104,6 +104,9 @@
     <ClInclude Include="PoppoMarch\BubbleScene.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PoppoMarch\PoppoScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PoppoMarchScreenSaver.rc">

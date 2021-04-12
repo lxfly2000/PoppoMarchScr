@@ -1,4 +1,5 @@
 #include "SceneObject.h"
+#include <algorithm>
 
 SceneObject::SceneObject():childNodes(),layer(0),isRunning(1)
 {
