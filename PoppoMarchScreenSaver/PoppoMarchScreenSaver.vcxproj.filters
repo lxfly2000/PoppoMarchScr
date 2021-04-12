@@ -57,6 +57,9 @@
     <ClCompile Include="PoppoMarch\BubbleScene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PoppoMarch\PoppoScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScreenSaver.h">
