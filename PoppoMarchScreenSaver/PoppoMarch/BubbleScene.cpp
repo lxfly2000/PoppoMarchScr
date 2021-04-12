@@ -10,7 +10,7 @@
 #define COLOR_DARK_B 30
 #define BUBBLE_COLOR_LEVELS 10
 #define BUBBLE_MAX_COUNT 50
-#define CHANGE_TARGETING_POINT_TIME_SECONDS 10
+#define CHANGE_TARGETING_POINT_TIME_SECONDS 12
 #define BUBBLE_COUNT_RANGE_DELTA 20
 
 int GetBubbleColor(int n)
@@ -60,7 +60,7 @@ int BubbleScene::RunFrame()
 	for (size_t i = 0; i < GetChildCount();)
 	{
 		Bubble* bubble = (Bubble*)GetChild(i);
-		if (bubble->GetPosY() < -BUBBLE_MAX_RADIUS * 2 || bubble->GetPosX() < -BUBBLE_MAX_RADIUS * 2 || bubble->GetPosX() > resolutionWidth + BUBBLE_MAX_RADIUS * 2)
+		if (bubble->GetPosY() < -BUBBLE_MAX_RADIUS || bubble->GetPosX() < -BUBBLE_MAX_RADIUS || bubble->GetPosX() > resolutionWidth + BUBBLE_MAX_RADIUS)
 		{
 			delete bubble;
 			RemoveChild(i);
@@ -81,23 +81,23 @@ int BubbleScene::RunFrame()
 		}
 	}
 	//这个判断是瞎写的，勿当真（
-	if (frameCounter % (fps / BUBBLE_MAX_SPEED / BUBBLE_MAX_ACC) == 0 && BUBBLE_MAX_COUNT - BUBBLE_COUNT_RANGE_DELTA / 2 + GetRand(BUBBLE_COUNT_RANGE_DELTA) > GetChildCount())
+	if (frameCounter % (int)ceilf(fps / BUBBLE_MAX_SPEED / BUBBLE_MAX_ACC) == 0 && BUBBLE_MAX_COUNT - BUBBLE_COUNT_RANGE_DELTA / 2 + GetRand(BUBBLE_COUNT_RANGE_DELTA) > GetChildCount())
 	{
 		Bubble* bubble = new Bubble();
-		bubble->SetPos(GetRand(resolutionWidth), GetRand(resolutionHeight));
+		int rnd = GetRand(resolutionWidth + resolutionHeight);
 		if (targetingPoint)//向右
 		{
-			if ((resolutionHeight - bubble->GetPosY())*resolutionWidth > bubble->GetPosX()*resolutionHeight)//在左边出现
-				bubble->SetPos(-BUBBLE_MAX_RADIUS * 2, bubble->GetPosY());
+			if (rnd < resolutionHeight)//在左边出现
+				bubble->SetPos(-BUBBLE_MAX_RADIUS, rnd);
 			else//在下边出现
-				bubble->SetPos(bubble->GetPosX(), resolutionHeight + BUBBLE_MAX_RADIUS * 2);
+				bubble->SetPos(rnd - resolutionHeight, resolutionHeight + BUBBLE_MAX_RADIUS);
 		}
 		else//向左
 		{
-			if (bubble->GetPosY()*resolutionWidth < bubble->GetPosX()*resolutionHeight)//在右边出现
-				bubble->SetPos(resolutionWidth + BUBBLE_MAX_RADIUS * 2, bubble->GetPosY());
+			if (rnd < resolutionHeight)//在右边出现
+				bubble->SetPos(resolutionWidth + BUBBLE_MAX_RADIUS, rnd);
 			else//在下边出现
-				bubble->SetPos(bubble->GetPosX(), resolutionHeight + BUBBLE_MAX_RADIUS * 2);
+				bubble->SetPos(rnd - resolutionHeight, resolutionHeight + BUBBLE_MAX_RADIUS);
 		}
 		bubble->SetToPos(floatingPointX[targetingPoint], floatingPointY[targetingPoint]);
 		bubble->SetRadius(BUBBLE_MIN_RADIUS + GetRand(BUBBLE_MAX_RADIUS - BUBBLE_MIN_RADIUS));

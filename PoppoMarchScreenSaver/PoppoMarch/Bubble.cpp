@@ -2,6 +2,12 @@
 #include "Game/DxCommon.h"
 #include <DxLib.h>
 
+#define RANDF_LEVELS 100
+float GetRandFloat(float n)
+{
+	return n * GetRand(RANDF_LEVELS) / RANDF_LEVELS;
+}
+
 //计算从(x1,y1)到(x2,y2)的角度
 float CalcLineAngle(float x1, float y1, float x2, float y2)
 {
@@ -24,13 +30,15 @@ int Bubble::Init()
 int Bubble::RunFrame()
 {
 	float va = GetVelAngle();
-	aF = FLUID_FORCE_FACTOR * GetVel() / fps;
+	aF = FLUID_FORCE_FACTOR * GetVel() / fps / GetRadius();
 	vX = vX + aX - aF * cosf(va);
 	vY = vY + aY - aF * sinf(va);
 	posX += vX;
 	posY += vY;
+	//根据公式：F=kv, F=ma, m=ρ4/3Πr3
+	//得知a=kv/(p4/3Nr3)
 	if (frameCounter % (fps / 2) == 0)
-		SetAccVA((float)GetRand(BUBBLE_MAX_ACC)/fps, CalcLineAngle(posX, posY, toX, toY) + DegToRad(GetRand(90)) - DX_PI / 4);
+		SetAccVA(GetRandFloat(BUBBLE_MAX_ACC) / fps, CalcLineAngle(posX, posY, toX, toY) + DegToRad(GetRand(90)) - DX_PI / 4);
 	DrawCircleAA(posX, posY, radius, 50, color);
 #ifdef _DEBUG
 	DrawLineAA(posX, posY, posX + aX*1000, posY + aY*1000, 0xFFFF0000);

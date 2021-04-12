@@ -1,13 +1,14 @@
 #pragma once
 #include "Game/SceneObject.h"
 
-#define BUBBLE_MAX_SPEED 4//pixels per second
-#define BUBBLE_MAX_ACC 4//pixels per second sq.
-#define BUBBLE_MAX_RADIUS 40
-#define BUBBLE_MIN_RADIUS 10
+#define BUBBLE_MAX_SPEED 4.4f//pixels per second
+#define BUBBLE_MAX_ACC 4.0f//pixels per second sq.
+#define BUBBLE_MAX_RADIUS 40.0f
+#define BUBBLE_MIN_RADIUS 10.0f
+#define BUBBLE_REFERENCE_RADIUS 40.0f
 
-//f=kv f=a
-#define FLUID_FORCE_FACTOR (BUBBLE_MAX_ACC/BUBBLE_MAX_SPEED)//per second
+//²Î¿¼£ºhttps://www.guokr.com/article/268900/
+#define FLUID_FORCE_FACTOR (BUBBLE_MAX_ACC*BUBBLE_REFERENCE_RADIUS/BUBBLE_MAX_SPEED)//per second
 
 class Bubble :public SceneObject
 {
