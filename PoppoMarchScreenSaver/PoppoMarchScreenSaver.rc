@@ -110,14 +110,14 @@ END
 // AFX_DIALOG_LAYOUT
 //
 
-IDD_DIALOG_SETTINGS AFX_DIALOG_LAYOUT 
+IDD_DIALOG_SETTINGS AFX_DIALOG_LAYOUT
 BEGIN
-    0x0000
+    0
 END
 
-IDD_DIALOG_ABOUT AFX_DIALOG_LAYOUT 
+IDD_DIALOG_ABOUT AFX_DIALOG_LAYOUT
 BEGIN
-    0x0000
+    0
 END
 
 
@@ -127,6 +127,7 @@ END
 //
 
 IDB_BITMAP_BANNER       BITMAP                  "banner.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -180,6 +181,22 @@ BEGIN
         VALUE "Translation", 0x804, 1200
     END
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ogg
+//
+
+IDR_OGG_BGM             ogg                     "bgm.ogg"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// txt
+//
+
+IDR_TXT_BGM             txt                     "bgm.txt"
 
 
 /////////////////////////////////////////////////////////////////////////////

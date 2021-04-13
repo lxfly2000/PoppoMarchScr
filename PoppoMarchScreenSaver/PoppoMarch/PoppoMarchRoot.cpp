@@ -1,5 +1,6 @@
 #include "PoppoMarchRoot.h"
 #include "Config.h"
+#include "../resource.h"
 #include <DxLib.h>
 
 #define FADEIN_TIME_MS 1000
@@ -8,16 +9,20 @@ static int fadein_counter = 0;
 
 PoppoMarchRoot::PoppoMarchRoot():DxRootScene(),
 ktEsc(KEY_INPUT_ESCAPE), ktSpace(KEY_INPUT_SPACE), ktEnter(KEY_INPUT_RETURN), ktF11(KEY_INPUT_F11),
-optionCloseByClick(FALSE),mouseHideCounter(0),optionShowFps(0)
+optionCloseByClick(FALSE),mouseHideCounter(0),optionShowFps(0),optionPlayBgm(0),hBgm(0)
 {
 }
 
 int PoppoMarchRoot::Init()
 {
+#ifndef _DEBUG
+	SetOutApplicationLogValidFlag(FALSE);
+#endif
 	if (!InitConfigFile())
 		return -1;
 	optionShowFps = ReadInt(KEY_SHOW_FPS);
 	optionCloseByClick = ReadInt(KEY_CLOSE_BY_CLICKING);
+	optionPlayBgm = ReadInt(KEY_PLAY_BGM);
 
 	SetResolution(1280, 720);
 	if (!DxLib_IsInit())
@@ -35,7 +40,26 @@ int PoppoMarchRoot::Init()
 	AddChild(&bg);
 	AddChild(&bb);
 	SRand(GetNowCount());
-	return DxRootScene::Init();
+	if (DxRootScene::Init())
+		return -2;
+	if (optionPlayBgm && hBgm == 0)
+	{
+		//这个函数只能在DxLib_Init后调用
+		hBgm = LoadSoundMemByResource(MAKEINTRESOURCE(IDR_OGG_BGM), TEXT("ogg"));
+		if (hBgm && hBgm != -1)
+		{
+			LPVOID ptr;
+			size_t sz;
+			if (GetResourceInfo(MAKEINTRESOURCE(IDR_TXT_BGM), TEXT("txt"), &ptr, &sz) == 0)
+			{
+				int a, b;
+				sscanf_s((LPSTR)ptr, "%d %d", &a, &b);
+				SetLoopAreaSamplePosSoundMem(a, b, hBgm);
+			}
+			PlaySoundMem(hBgm, DX_PLAYTYPE_LOOP);
+		}
+	}
+	return 0;
 }
 
 int PoppoMarchRoot::RunFrame()
@@ -63,7 +87,15 @@ int PoppoMarchRoot::End()
 {
 	if (SceneObject::End())
 		return -1;
-	return RemoveAllChilds();
+	if (RemoveAllChilds())
+		return -2;
+	if (hBgm && IsRunning() == FALSE)
+	{
+		StopMusicMem(hBgm);
+		DeleteMusicMem(hBgm);
+		hBgm = 0;
+	}
+	return 0;
 }
 
 int PoppoMarchRoot::ProcessInput()

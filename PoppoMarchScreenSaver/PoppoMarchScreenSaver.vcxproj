@@ -207,6 +207,12 @@
   <ItemGroup>
     <Image Include="banner.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bgm.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="bgm.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

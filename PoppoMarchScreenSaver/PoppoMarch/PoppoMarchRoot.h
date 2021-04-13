@@ -19,7 +19,9 @@ private:
 	FPSMeter fpsMeter;
 	int optionCloseByClick;
 	int optionShowFps;
+	int optionPlayBgm;
 	int mouseHideCounter;
 	BackgroundScene bg;
 	BubbleScene bb;
+	int hBgm;
 };
