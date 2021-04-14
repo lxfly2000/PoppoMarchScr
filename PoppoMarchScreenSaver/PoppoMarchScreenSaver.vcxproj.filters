@@ -45,9 +45,6 @@
     <ClCompile Include="PoppoMarch\Config.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PoppoMarch\SettingsDialog.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="PoppoMarch\BackgroundScene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -58,6 +55,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PoppoMarch\PoppoScene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SetRichEditText.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsDialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,9 +95,6 @@
     <ClInclude Include="PoppoMarch\Config.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PoppoMarch\SettingsDialog.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -108,6 +108,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PoppoMarch\PoppoScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SetRichEditText.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsDialog.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

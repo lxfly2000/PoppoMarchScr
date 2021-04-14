@@ -68,13 +68,13 @@ BEGIN
 END
 
 IDD_DIALOG_ABOUT DIALOGEX 0, 0, 311, 179
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 9, "SimSun", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&OK",IDOK,254,158,50,14
     CONTROL         "",IDC_STATIC_BITMAP,"Static",SS_BITMAP,7,7,6,5
-    EDITTEXT        IDC_EDIT_MESSAGE,86,7,218,148,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL
+    CONTROL         "",IDC_RICHEDIT2_MESSAGE,"RichEdit20W",WS_BORDER | WS_TABSTOP | 0x884,86,7,218,148
 END
 
 
@@ -185,18 +185,18 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// ogg
+// OGG
 //
 
-IDR_OGG_BGM             ogg                     "bgm.ogg"
+IDR_OGG_BGM             OGG                     "bgm.ogg"
 
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// txt
+// TXT
 //
 
-IDR_TXT_BGM             txt                     "bgm.txt"
+IDR_TXT_BGM             TXT                     "bgm.txt"
 
 
 /////////////////////////////////////////////////////////////////////////////

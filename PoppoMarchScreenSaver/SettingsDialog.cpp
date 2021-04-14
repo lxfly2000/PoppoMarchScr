@@ -1,6 +1,7 @@
 #include "SettingsDialog.h"
-#include "Config.h"
-#include "../resource.h"
+#include "PoppoMarch/Config.h"
+#include "SetRichEditText.h"
+#include "resource.h"
 
 #include <windowsx.h>
 
@@ -32,9 +33,9 @@ void OnInitAboutDialog(HWND hwnd)
 {
 	TCHAR t[256];
 	LoadString(NULL, IDS_STRING_ABOUT, t, ARRAYSIZE(t));
-	Edit_SetText(GetDlgItem(hwnd, IDC_EDIT_MESSAGE), t);
 	HWND hStatic = GetDlgItem(hwnd, IDC_STATIC_BITMAP);
-	HWND hEdit = GetDlgItem(hwnd, IDC_EDIT_MESSAGE);
+	HWND hEdit = GetDlgItem(hwnd, IDC_RICHEDIT2_MESSAGE);
+	SetRichEditText(hEdit, t);
 	HBITMAP hBmp = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP_BANNER));
 	BITMAP bmp;
 	GetObject(hBmp, sizeof(bmp), &bmp);
@@ -65,6 +66,7 @@ INT_PTR CALLBACK AboutDialogCallback(HWND hwnd, UINT msg, WPARAM w, LPARAM l)
 		}
 		break;
 	}
+	OnRichEditClickMsg(hwnd, msg, w, l);
 	return 0;
 }
 
@@ -116,5 +118,6 @@ INT_PTR CALLBACK SettingsDialogCallback(HWND hwnd, UINT msg, WPARAM w, LPARAM l)
 
 INT_PTR SettingsDialog(HINSTANCE hInst,HWND hWndParent)
 {
+	LoadLibraryA("riched20.dll");
 	return DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG_SETTINGS), hWndParent, SettingsDialogCallback);
 }
