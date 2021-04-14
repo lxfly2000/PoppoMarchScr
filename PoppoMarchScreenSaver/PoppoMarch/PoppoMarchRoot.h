@@ -4,6 +4,7 @@
 #include "Game/KeyTrigger.h"
 #include "BackgroundScene.h"
 #include "BubbleScene.h"
+#include "PoppoScene.h"
 
 class PoppoMarchRoot :public DxRootScene
 {
@@ -12,6 +13,7 @@ public:
 	virtual int Init()override;
 	virtual int RunFrame()override;
 	virtual int End()override;
+	virtual void SetIsRunning(int)override;
 private:
 	int ProcessInput();
 	void DrawFrame();
@@ -23,5 +25,6 @@ private:
 	int mouseHideCounter;
 	BackgroundScene bg;
 	BubbleScene bb;
+	PoppoScene pp;
 	int hBgm;
 };

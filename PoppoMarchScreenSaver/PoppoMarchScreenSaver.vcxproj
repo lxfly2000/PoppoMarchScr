@@ -170,6 +170,7 @@
     <ClCompile Include="PoppoMarch\BackgroundScene.cpp" />
     <ClCompile Include="PoppoMarch\Bubble.cpp" />
     <ClCompile Include="PoppoMarch\BubbleScene.cpp" />
+    <ClCompile Include="PoppoMarch\CharacterDraw.cpp" />
     <ClCompile Include="PoppoMarch\Config.cpp" />
     <ClCompile Include="PoppoMarch\Game\DxRootScene.cpp" />
     <ClCompile Include="PoppoMarch\Game\FPSMeter.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="PoppoMarch\BackgroundScene.h" />
     <ClInclude Include="PoppoMarch\Bubble.h" />
     <ClInclude Include="PoppoMarch\BubbleScene.h" />
+    <ClInclude Include="PoppoMarch\CharacterDraw.h" />
     <ClInclude Include="PoppoMarch\Config.h" />
     <ClInclude Include="PoppoMarch\Game\DxCommon.h" />
     <ClInclude Include="PoppoMarch\Game\DxRootScene.h" />
@@ -207,6 +209,7 @@
     <ResourceCompile Include="PoppoMarchScreenSaver.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="app.ico" />
     <Image Include="banner.bmp" />
   </ItemGroup>
   <ItemGroup>

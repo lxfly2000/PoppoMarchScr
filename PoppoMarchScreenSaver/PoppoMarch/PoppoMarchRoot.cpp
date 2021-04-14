@@ -39,18 +39,19 @@ int PoppoMarchRoot::Init()
 	AddChild(&ktF11);
 	AddChild(&bg);
 	AddChild(&bb);
+	AddChild(&pp);
 	SRand(GetNowCount());
 	if (DxRootScene::Init())
 		return -2;
 	if (optionPlayBgm && hBgm == 0)
 	{
 		//这个函数只能在DxLib_Init后调用
-		hBgm = LoadSoundMemByResource(MAKEINTRESOURCE(IDR_OGG_BGM), TEXT("ogg"));
+		hBgm = LoadSoundMemByResource(TEXT("bgm.ogg"), TEXT("bgm"));
 		if (hBgm && hBgm != -1)
 		{
 			LPVOID ptr;
 			size_t sz;
-			if (GetResourceInfo(MAKEINTRESOURCE(IDR_TXT_BGM), TEXT("txt"), &ptr, &sz) == 0)
+			if (GetResourceInfo(TEXT("bgm.txt"), TEXT("loop"), &ptr, &sz) == 0)
 			{
 				int a, b;
 				sscanf_s((LPSTR)ptr, "%d %d", &a, &b);
@@ -96,6 +97,12 @@ int PoppoMarchRoot::End()
 		hBgm = 0;
 	}
 	return 0;
+}
+
+void PoppoMarchRoot::SetIsRunning(int r)
+{
+	pp.SetIsRunning(FALSE);
+	SceneObject::SetIsRunning(r);
 }
 
 int PoppoMarchRoot::ProcessInput()

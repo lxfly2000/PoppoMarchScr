@@ -63,6 +63,9 @@
     <ClCompile Include="SettingsDialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PoppoMarch\CharacterDraw.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScreenSaver.h">
@@ -116,6 +119,9 @@
     <ClInclude Include="SettingsDialog.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PoppoMarch\CharacterDraw.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PoppoMarchScreenSaver.rc">
@@ -124,6 +130,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="banner.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="app.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
