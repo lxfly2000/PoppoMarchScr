@@ -1319,7 +1319,7 @@ IDI_ICON_APP            ICON                    "app.ico"
 
 STRINGTABLE
 BEGIN
-    IDS_STRING_ABOUT        "Poppo March Screen Saver\r\nBy Yuxin\r\n\r\nhttps://github.com/lxfly2000/PoppoMarchScr\r\n\r\n\r\nReference Video:\r\nhttps://www.youtube.com/watch?v=LVB-99_jbC8\r\n"
+    IDS_STRING_ABOUT        "Poppo March Screen Saver\nBy Yuxin\n\nhttps://github.com/lxfly2000/PoppoMarchScr\n\n\nReference Video:\nhttps://www.youtube.com/watch?v=LVB-99_jbC8\n"
 END
 
 #endif    // 中文(简体，中国) resources
