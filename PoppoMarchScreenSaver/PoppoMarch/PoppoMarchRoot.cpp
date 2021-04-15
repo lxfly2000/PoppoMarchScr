@@ -21,7 +21,7 @@ int PoppoMarchRoot::Init()
 	if (!InitConfigFile())
 		return -1;
 	optionShowFps = ReadInt(KEY_SHOW_FPS);
-	optionCloseByClick = ReadInt(KEY_CLOSE_BY_CLICKING);
+	optionCloseByClick = ReadInt(KEY_CLOSE_BY_CLICKING, 1);
 	optionPlayBgm = ReadInt(KEY_PLAY_BGM);
 
 	SetResolution(1280, 720);
