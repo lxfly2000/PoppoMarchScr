@@ -1,5 +1,5 @@
 #include "ScreenSaver.h"
-#include "PoppoMarch/SettingsDialog.h"
+#include "SettingsDialog.h"
 #include "PoppoMarch/PoppoMarchGame.h"
 
 int ScreenSaver::Settings(HINSTANCE hInst, HWND hWndParent)
