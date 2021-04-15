@@ -47,11 +47,14 @@ INT_PTR CALLBACK OnRichEditClickMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		ENLINK *el = (ENLINK*)lParam;
 		if (el->msg == WM_LBUTTONUP)
 		{
-			TCHAR text[4096];
-			GetDlgItemText(hwnd, ((LPNMHDR)lParam)->idFrom, text, ARRAYSIZE(text));
+			HWND hRE = GetDlgItem(hwnd, ((LPNMHDR)lParam)->idFrom);
+			int len = GetWindowTextLength(hRE);
+			TCHAR* text = new TCHAR[len + 1];
+			GetWindowText(hRE, text, len);
+			text[len] = 0;
 			std::wstring ut = to_unix_str(text);
-			text[el->chrg.cpMax] = 0;
 			ut = ut.substr(el->chrg.cpMin, el->chrg.cpMax - el->chrg.cpMin);
+			delete text;
 			return (int)ShellExecute(hwnd, TEXT("open"), ut.c_str(), NULL, NULL, SW_NORMAL);
 		}
 	}
