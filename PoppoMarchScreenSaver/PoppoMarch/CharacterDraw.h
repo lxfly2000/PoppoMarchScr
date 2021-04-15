@@ -21,11 +21,13 @@ public:
 	//0=正常显示 1=爆炸效果中 2=消失
 	int GetStatus();
 	void Explode();
+	void SetBlankPixelsBottom(int n);
 private:
 	int frameCounter;
 	int hGraph,hSoftImage;
 	int status;//0=正常显示 1=爆炸效果中 2=消失
 	int speedJump;//一次跳动占用多少帧
+	int blankPixelsBottom;
 	float graphWidth, graphHeight;
 	float posX, posY;
 	float speedX;//每帧的速度

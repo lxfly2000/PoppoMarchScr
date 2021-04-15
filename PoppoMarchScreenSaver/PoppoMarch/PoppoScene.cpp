@@ -26,7 +26,7 @@ int PoppoScene::Init()
 	otherUnitsOrderCounter = OTHER_UNITS_START_ORDER - OTHER_UNITS_NEXT_ORDER_RANGE / 2 + GetRand(OTHER_UNITS_NEXT_ORDER_RANGE);
 	GetDrawScreenSize(&resolutionWidth, &resolutionHeight);
 	EnumResourceNames(GetModuleHandle(NULL), TEXT("units"), EnumResNameLoadGraphProcW, (LONG_PTR)this);
-	if (hSoftImageOtherUnits.empty())
+	if (hSoftImageUnits.empty())
 		EnumResourceNames(GetModuleHandle(NULL), TEXT("units"), EnumResNameLoadSoftImageProcW, (LONG_PTR)this);
 	return SceneObject::Init();
 }
@@ -43,12 +43,14 @@ int PoppoScene::RunFrame()
 		if (otherUnitsOrderCounter <= 0)
 		{
 			otherUnitsOrderCounter = OTHER_UNITS_NEXT_ORDER - OTHER_UNITS_NEXT_ORDER_RANGE / 2 + GetRand(OTHER_UNITS_NEXT_ORDER_RANGE);
-			int index = GetRand(hGraphOtherUnits.size());
-			c->SetGraph(hGraphOtherUnits[index], hSoftImageOtherUnits[index]);
+			int index = GetRand(hGraphUnits.size());
+			c->SetGraph(hGraphUnits[index], hSoftImageUnits[index]);
+			c->SetBlankPixelsBottom(bottomBlankPixelsUnits[index]);
 		}
 		else
 		{
-			c->SetGraph(hGraphPoppo, hSoftImagePoppo);
+			c->SetGraph(hGraphUnits[indexPoppo], hSoftImageUnits[indexPoppo]);
+			c->SetBlankPixelsBottom(bottomBlankPixelsUnits[indexPoppo]);
 		}
 		otherUnitsOrderCounter--;
 		AddChild(c);
@@ -88,14 +90,14 @@ int PoppoScene::RunFrame()
 
 int PoppoScene::End()
 {
-	for (size_t i = 0; i < hGraphOtherUnits.size(); i++)
-		DeleteGraph(hGraphOtherUnits[i]);
-	hGraphOtherUnits.clear();
+	for (size_t i = 0; i < hGraphUnits.size(); i++)
+		DeleteGraph(hGraphUnits[i]);
+	hGraphUnits.clear();
 	if (IsRunning() == FALSE)
 	{
-		for (size_t i = 0; i < hSoftImageOtherUnits.size(); i++)
-			DeleteSoftImage(hSoftImageOtherUnits[i]);
-		hSoftImageOtherUnits.clear();
+		for (size_t i = 0; i < hSoftImageUnits.size(); i++)
+			DeleteSoftImage(hSoftImageUnits[i]);
+		hSoftImageUnits.clear();
 	}
 	return SceneObject::End();
 }
@@ -106,13 +108,40 @@ BOOL CALLBACK PoppoScene::EnumResNameLoadGraphProcW(HMODULE hModule, LPCWSTR lpT
 	int h = LoadGraphToResource(lpName, lpType);
 	if (h == 0 || h == -1)
 		return FALSE;
-	pThis->hGraphOtherUnits.push_back(h);
 	if (stricmpDx(lpName, TEXT("poppo_00_00.png")) == 0)
 	{
-		pThis->hGraphPoppo = h;
-		GetGraphSizeF(pThis->hGraphPoppo, &pThis->poppoWidth, &pThis->poppoHeight);
+		pThis->indexPoppo = pThis->hGraphUnits.size();
+		GetGraphSizeF(h, &pThis->poppoWidth, &pThis->poppoHeight);
 	}
+	pThis->hGraphUnits.push_back(h);
 	return TRUE;
+}
+
+int GetBlankPixelsBottom(int siHandle)
+{
+	int w, h;
+	GetSoftImageSize(siHandle, &w, &h);
+	int cx = w / 2, cy = h - 1;
+	int r, g, b, a;
+	//先从下方中间点往上找，再逐行往下
+	while (cy >= 0)
+	{
+		GetPixelSoftImage(siHandle, cx, cy, &r, &g, &b, &a);
+		if (a)
+			break;
+		cy--;
+	}
+	int &x = cx;
+	for (int y = cy; y < h; y++)
+	{
+		for (x = 0; x < w; x++)
+		{
+			GetPixelSoftImage(siHandle, x, y, &r, &g, &b, &a);
+			if (a)
+				cy = y;
+		}
+	}
+	return h - cy - 1;
 }
 
 BOOL CALLBACK PoppoScene::EnumResNameLoadSoftImageProcW(HMODULE hModule, LPCWSTR lpType, LPWSTR lpName, LONG_PTR lParam)
@@ -125,10 +154,7 @@ BOOL CALLBACK PoppoScene::EnumResNameLoadSoftImageProcW(HMODULE hModule, LPCWSTR
 	int hSI = LoadSoftImageToMem(ptr, sz);
 	if (hSI == 0 || hSI == -1)
 		return FALSE;
-	pThis->hSoftImageOtherUnits.push_back(hSI);
-	if (stricmpDx(lpName, TEXT("poppo_00_00.png")) == 0)
-	{
-		pThis->hSoftImagePoppo = hSI;
-	}
+	pThis->hSoftImageUnits.push_back(hSI);
+	pThis->bottomBlankPixelsUnits.push_back(GetBlankPixelsBottom(hSI));
 	return TRUE;
 }
