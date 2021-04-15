@@ -38,6 +38,10 @@ int PoppoScene::Init()
 		hSE = LoadSoundMemByResource(TEXT("click.wav"), TEXT("se"));
 		if (hSE == 0 || hSE == -1)
 			return -1;
+		int h = LoadGraphToResource(TEXT("spark.png"), TEXT("png"));
+		if (h == 0 || h == -1)
+			return -2;
+		CharacterDraw::SetSparkGraph(h);
 	}
 	return SceneObject::Init();
 }
@@ -107,6 +111,7 @@ int PoppoScene::End()
 	hGraphUnits.clear();
 	if (IsRunning() == FALSE)
 	{
+		DeleteGraph(CharacterDraw::GetSparkGraph());
 		DeleteSoundMem(hSE);
 		for (size_t i = 0; i < hSoftImageUnits.size(); i++)
 			DeleteSoftImage(hSoftImageUnits[i]);

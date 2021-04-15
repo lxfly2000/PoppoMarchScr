@@ -1303,6 +1303,9 @@ yuuki_15_00.png UNITS "units/yuuki_15_00.png"
 //SE
 click.wav SE "click.wav"
 
+//PNG
+spark.png PNG "spark.png"
+
 
 
 /////////////////////////////////////////////////////////////////////////////

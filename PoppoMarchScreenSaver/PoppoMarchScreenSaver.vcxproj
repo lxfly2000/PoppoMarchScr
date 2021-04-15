@@ -180,6 +180,7 @@
     <ClCompile Include="PoppoMarch\PoppoMarchGame.cpp" />
     <ClCompile Include="PoppoMarch\PoppoMarchRoot.cpp" />
     <ClCompile Include="PoppoMarch\PoppoScene.cpp" />
+    <ClCompile Include="PoppoMarch\Spark.cpp" />
     <ClCompile Include="ScreenSaver.cpp" />
     <ClCompile Include="SetRichEditText.cpp" />
     <ClCompile Include="SettingsDialog.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="PoppoMarch\PoppoMarchGame.h" />
     <ClInclude Include="PoppoMarch\PoppoMarchRoot.h" />
     <ClInclude Include="PoppoMarch\PoppoScene.h" />
+    <ClInclude Include="PoppoMarch\Spark.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ScreenSaver.h" />
     <ClInclude Include="SetRichEditText.h" />

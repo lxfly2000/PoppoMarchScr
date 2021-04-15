@@ -20,3 +20,4 @@ exit(-1);\
 #define MsToFrames(ms) ((ms)*GetRefreshRate()/1000)
 #define DegToRad(d) ((d)*DX_PI/180)
 #define RadToDeg(r) ((r)*180/DX_PI)
+#define GetRandFloat(n,divLevels) ((float)(n)*GetRand(divLevels)/(divLevels))

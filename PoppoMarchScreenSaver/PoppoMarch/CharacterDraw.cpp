@@ -1,5 +1,7 @@
 //WIP
 #include "CharacterDraw.h"
+#include "Spark.h"
+#include "Game/DxCommon.h"
 #include <DxLib.h>
 
 #define SHADOW_RADIUS_X 72.0f
@@ -13,16 +15,26 @@
 #define SHADOW_EDGE_WIDTH 3.0f
 #define SHADOW_ALPHA 240
 #define EXPLODE_EFFECT_TIME_FRAMES 30
-#define EXPLODE_EFFECT_MAX_RADIUS 200
+#define EXPLODE_EFFECT_MAX_RADIUS 160.0f
+#define EXPLODE_EFFECT_MIN_RADIUS 100.0f
+#define EXPLODE_EFFECT_MIN_OBJECTS 5
+#define EXPLODE_EFFECT_MAX_OBJECTS 10
+#define EXPLODE_EFFECT_OBJECT_MIN_ZOOM 0.2f
+#define EXPLODE_EFFECT_OBJECT_MAX_ZOOM 1.0f
+
+int CharacterDraw::hGraphSpark = 0;
 
 CharacterDraw::CharacterDraw():SceneObject(),frameCounter(0),hGraph(0),hSoftImage(0),status(0),jumpFrames(CHARACTER_DRAW_DEFAULT_SPEED_JUMP_FRAMES),
 posX(0.0f), posY(0.0f), speedX(CHARACTER_DRAW_DEFAULT_SPEED_X), zoom(CHARACTER_DRAW_DEFAULT_ZOOM),
-blankPixelsBottom(0),graphWidth(0),graphHeight(0),jumpHeight(0),mouseX(0),mouseY(0)
+blankPixelsBottom(0),graphWidth(0),graphHeight(0),jumpHeight(0)
 {
 }
 
 int CharacterDraw::RunFrame()
 {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, (EXPLODE_EFFECT_TIME_FRAMES - frameCounter) * 255 / EXPLODE_EFFECT_TIME_FRAMES);
+	SceneObject::RunFrame();
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	if (status == 0)
 	{
 		posX -= speedX;
@@ -39,7 +51,20 @@ int CharacterDraw::RunFrame()
 	}
 	else if (status == 1)
 	{
-		if (frameCounter >= EXPLODE_EFFECT_TIME_FRAMES)
+		for (size_t i = 0; i < GetChildCount();)
+		{
+			Spark* s = (Spark*)GetChild(i);
+			if (s->IsDisappeared())
+			{
+				delete s;
+				RemoveChild(i);
+			}
+			else
+			{
+				i++;
+			}
+		}
+		if (GetChildCount() == 0)
 			status = 2;
 		frameCounter++;
 	}
@@ -96,15 +121,35 @@ int CharacterDraw::GetStatus()
     return status;
 }
 
-void CharacterDraw::Explode(int mouse_x, int mouse_y)
+void CharacterDraw::Explode(int x, int y)
 {
 	status = 1;
 	frameCounter = 0;
-	mouseX = mouse_x;
-	mouseY = mouse_y;
+
+	int nObj = GetRand(EXPLODE_EFFECT_MAX_OBJECTS - EXPLODE_EFFECT_MIN_OBJECTS + 1) + EXPLODE_EFFECT_MIN_OBJECTS;
+	for (int i = 0; i < nObj; i++)
+	{
+		float zoom = GetRandFloat(EXPLODE_EFFECT_OBJECT_MAX_ZOOM - EXPLODE_EFFECT_OBJECT_MIN_ZOOM, 100) + EXPLODE_EFFECT_OBJECT_MIN_ZOOM;
+		float r = GetRandFloat(EXPLODE_EFFECT_MAX_RADIUS - EXPLODE_EFFECT_MIN_RADIUS, 100) + EXPLODE_EFFECT_MIN_RADIUS;
+		float angle = DegToRad(GetRand(360));
+		float v = r / EXPLODE_EFFECT_TIME_FRAMES;
+		Spark* s = new Spark((float)x, (float)y, v * cosf(angle), v * sinf(angle), angle, zoom, EXPLODE_EFFECT_TIME_FRAMES);
+		s->SetGraph(hGraphSpark);
+		AddChild(s);
+	}
 }
 
 void CharacterDraw::SetBlankPixelsBottom(int n)
 {
 	blankPixelsBottom = n;
+}
+
+void CharacterDraw::SetSparkGraph(int gr)
+{
+	hGraphSpark = gr;
+}
+
+int CharacterDraw::GetSparkGraph()
+{
+	return hGraphSpark;
 }
