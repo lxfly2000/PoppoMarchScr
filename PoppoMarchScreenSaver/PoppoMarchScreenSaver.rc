@@ -169,9 +169,9 @@ BEGIN
             VALUE "CompanyName", "Yuxin"
             VALUE "FileDescription", "Poppo March Screen Saver"
             VALUE "FileVersion", "1.0.0.0"
-            VALUE "InternalName", "pmscr.exe"
+            VALUE "InternalName", "PoppoMarch.scr"
             VALUE "LegalCopyright", "Copyright (C) 2021 Yuxin"
-            VALUE "OriginalFilename", "pmscr.exe"
+            VALUE "OriginalFilename", "PoppoMarchScreenSaver.exe"
             VALUE "ProductName", "Poppo March Screen Saver"
             VALUE "ProductVersion", "1.0.0.0"
         END
