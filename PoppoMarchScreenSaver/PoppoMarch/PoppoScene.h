@@ -10,9 +10,13 @@ public:
 	virtual int End()override;
 private:
 	int resolutionWidth, resolutionHeight;
-	int hGraphPoppo;
+	int hGraphPoppo,hSoftImagePoppo;
 	int otherUnitsOrderCounter;
+	int lastClick;
+	int optionAnimationSpeed;
 	float poppoWidth, poppoHeight;
 	std::vector<int>hGraphOtherUnits;
-	static BOOL CALLBACK EnumResnameProcW(HMODULE hModule,LPCWSTR lpType,LPWSTR lpName,LONG_PTR lParam);
+	std::vector<int>hSoftImageOtherUnits;
+	static BOOL CALLBACK EnumResNameLoadGraphProcW(HMODULE hModule,LPCWSTR lpType,LPWSTR lpName,LONG_PTR lParam);
+	static BOOL CALLBACK EnumResNameLoadSoftImageProcW(HMODULE hModule, LPCWSTR lpType, LPWSTR lpName, LONG_PTR lParam);
 };
