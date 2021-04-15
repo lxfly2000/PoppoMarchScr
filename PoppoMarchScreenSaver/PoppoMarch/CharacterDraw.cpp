@@ -107,6 +107,8 @@ bool CharacterDraw::HitTest(float x, float y)
 	float rx = (x - posX) / zoom + graphWidth / 2;
 	float ry = (y - posY) / zoom + graphHeight - blankPixelsBottom * zoom + jumpHeight;
 	int r, g, b, a;
+	if (rx < 0 || ry < 0 || rx >= graphWidth || ry >= graphHeight)
+		return false;
 	GetPixelSoftImage(hSoftImage, rx, ry, &r, &g, &b, &a);
 	return a > 0;
 }
