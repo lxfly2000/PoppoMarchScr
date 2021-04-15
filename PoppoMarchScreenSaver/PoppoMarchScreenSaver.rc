@@ -1300,6 +1300,9 @@ yuuki_11_00.png UNITS "units/yuuki_11_00.png"
 yuuki_12_00.png UNITS "units/yuuki_12_00.png"
 yuuki_15_00.png UNITS "units/yuuki_15_00.png"
 
+//SE
+click.wav SE "click.wav"
+
 
 
 /////////////////////////////////////////////////////////////////////////////

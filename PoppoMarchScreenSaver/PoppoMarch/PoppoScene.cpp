@@ -6,11 +6,16 @@
 #undef LONG_PTR
 #endif
 
-#define DISTANCE_BETWEEN_CHARACTERS 200.0f
-#define CHARACTER_Y_TO_BOTTOM 100.0f
+#define DISTANCE_BETWEEN_CHARACTERS 250.0f
+#define CHARACTER_Y_TO_BOTTOM 80.0f
 #define OTHER_UNITS_START_ORDER 100
 #define OTHER_UNITS_NEXT_ORDER 20
 #define OTHER_UNITS_NEXT_ORDER_RANGE 40
+
+PoppoScene::PoppoScene():hSE(0),indexPoppo(0),lastClick(0),optionAnimationSpeed(0),otherUnitsOrderCounter(0),poppoWidth(0),poppoHeight(0),
+resolutionWidth(0),resolutionHeight(0)
+{
+}
 
 PoppoScene::~PoppoScene()
 {
@@ -28,6 +33,12 @@ int PoppoScene::Init()
 	EnumResourceNames(GetModuleHandle(NULL), TEXT("units"), EnumResNameLoadGraphProcW, (LONG_PTR)this);
 	if (hSoftImageUnits.empty())
 		EnumResourceNames(GetModuleHandle(NULL), TEXT("units"), EnumResNameLoadSoftImageProcW, (LONG_PTR)this);
+	if (hSE == 0)
+	{
+		hSE = LoadSoundMemByResource(TEXT("click.wav"), TEXT("se"));
+		if (hSE == 0 || hSE == -1)
+			return -1;
+	}
 	return SceneObject::Init();
 }
 
@@ -79,7 +90,8 @@ int PoppoScene::RunFrame()
 			if (c->GetStatus() == 0 && c->HitTest((float)mx, (float)my))
 			{
 				c->SetLayer(-1);
-				c->Explode();
+				c->Explode(mx, my);
+				PlaySoundMem(hSE, DX_PLAYTYPE_BACK);
 				break;
 			}
 		}
@@ -95,6 +107,7 @@ int PoppoScene::End()
 	hGraphUnits.clear();
 	if (IsRunning() == FALSE)
 	{
+		DeleteSoundMem(hSE);
 		for (size_t i = 0; i < hSoftImageUnits.size(); i++)
 			DeleteSoftImage(hSoftImageUnits[i]);
 		hSoftImageUnits.clear();

@@ -70,7 +70,11 @@ int BubbleScene::RunFrame()
 			i++;
 		}
 	}
-	frameCounter = (frameCounter + 1) % (CHANGE_TARGETING_POINT_TIME_SECONDS * fps);
+	//BUG:不知为什么Bubble对象的toY在初始化的时候偶尔会出现为0的情况…然后我把“frameCounter=”那句从这行放到后面这个问题就没了？？
+#ifdef _DEBUG
+	if (abs(((Bubble*)GetChild(0))->GetToPosY()) < resolutionHeight)
+		puts("Unexpected toY.");
+#endif
 	if (frameCounter == 0)
 	{
 		targetingPoint = (targetingPoint + 1) % ARRAYSIZE(floatingPointX);
@@ -116,5 +120,6 @@ int BubbleScene::RunFrame()
 	}
 	DrawFormatString(showDbgX, showDbgY, GetColor(255, 0, 255), TEXT("BUBBLES:%3d"), GetChildCount());
 #endif
+	frameCounter = (frameCounter + 1) % (CHANGE_TARGETING_POINT_TIME_SECONDS * fps);
 	return 0;
 }

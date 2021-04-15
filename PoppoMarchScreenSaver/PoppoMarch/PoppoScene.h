@@ -4,6 +4,7 @@
 class PoppoScene :public SceneObject
 {
 public:
+	PoppoScene();
 	virtual ~PoppoScene();
 	virtual int Init()override;
 	virtual int RunFrame()override;
@@ -14,6 +15,7 @@ private:
 	int otherUnitsOrderCounter;
 	int lastClick;
 	int optionAnimationSpeed;
+	int hSE;
 	float poppoWidth, poppoHeight;
 	std::vector<int>hGraphUnits;
 	std::vector<int>hSoftImageUnits;

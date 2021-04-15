@@ -34,6 +34,7 @@ void OnInitAboutDialog(HWND hwnd)
 {
 	LPCTSTR t;
 	std::wstring str(t, LoadString(NULL, IDS_STRING_ABOUT, (LPTSTR)&t, 0));
+	str.append(TEXT("\nBuild at: ") __DATE__ "\n");
 	HWND hStatic = GetDlgItem(hwnd, IDC_STATIC_BITMAP);
 	HWND hEdit = GetDlgItem(hwnd, IDC_RICHEDIT2_MESSAGE);
 	SetRichEditText(hEdit, str.c_str());
