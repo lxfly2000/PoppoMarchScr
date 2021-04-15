@@ -4,6 +4,7 @@
 #include "resource.h"
 
 #include <windowsx.h>
+#include <string>
 
 static WNDPROC stProc;
 
@@ -31,11 +32,11 @@ INT_PTR CALLBACK LIstProc(HWND hwnd, UINT msg, WPARAM w, LPARAM l)
 
 void OnInitAboutDialog(HWND hwnd)
 {
-	TCHAR t[256];
-	LoadString(NULL, IDS_STRING_ABOUT, t, ARRAYSIZE(t));
+	LPCTSTR t;
+	std::wstring str(t, LoadString(NULL, IDS_STRING_ABOUT, (LPTSTR)&t, 0));
 	HWND hStatic = GetDlgItem(hwnd, IDC_STATIC_BITMAP);
 	HWND hEdit = GetDlgItem(hwnd, IDC_RICHEDIT2_MESSAGE);
-	SetRichEditText(hEdit, t);
+	SetRichEditText(hEdit, str.c_str());
 	HBITMAP hBmp = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_BITMAP_BANNER));
 	BITMAP bmp;
 	GetObject(hBmp, sizeof(bmp), &bmp);

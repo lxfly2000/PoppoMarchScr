@@ -15,7 +15,7 @@ std::wstring to_unix_str(std::wstring str)
 	return str;
 }
 
-void SetRichEditText(HWND h, LPWSTR text)
+void SetRichEditText(HWND h, LPCWSTR text)
 {
 	std::wstring str = to_unix_str(text);
 	std::wregex r(TEXT("https?://[^\\n ]+"));
@@ -54,7 +54,7 @@ INT_PTR CALLBACK OnRichEditClickMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			text[len] = 0;
 			std::wstring ut = to_unix_str(text);
 			ut = ut.substr(el->chrg.cpMin, el->chrg.cpMax - el->chrg.cpMin);
-			delete text;
+			delete[]text;
 			return (int)ShellExecute(hwnd, TEXT("open"), ut.c_str(), NULL, NULL, SW_NORMAL);
 		}
 	}
