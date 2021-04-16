@@ -150,7 +150,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,2,0
+ FILEVERSION 1,0,3,0
  PRODUCTVERSION 1,0,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -166,11 +166,11 @@ BEGIN
     BEGIN
         BLOCK "080404b0"
         BEGIN
-            VALUE "CompanyName", "Yuxin"
+            VALUE "CompanyName", "lxfly2000"
             VALUE "FileDescription", "Poppo March Screen Saver"
-            VALUE "FileVersion", "1.0.2.0"
+            VALUE "FileVersion", "1.0.3.0"
             VALUE "InternalName", "PoppoMarch.scr"
-            VALUE "LegalCopyright", "Copyright (C) 2021 Yuxin"
+            VALUE "LegalCopyright", "Copyright (C) 2021 lxfly2000"
             VALUE "OriginalFilename", "PoppoMarchScreenSaver.exe"
             VALUE "ProductName", "Poppo March Screen Saver"
             VALUE "ProductVersion", "1.0.0.0"

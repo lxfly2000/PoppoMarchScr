@@ -31,6 +31,10 @@ int PoppoScene::Init()
 	otherUnitsOrderCounter = OTHER_UNITS_START_ORDER - OTHER_UNITS_NEXT_ORDER_RANGE / 2 + GetRand(OTHER_UNITS_NEXT_ORDER_RANGE);
 	GetDrawScreenSize(&resolutionWidth, &resolutionHeight);
 	EnumResourceNames(GetModuleHandle(NULL), TEXT("units"), EnumResNameLoadGraphProcW, (LONG_PTR)this);
+	int h = LoadGraphToResource(TEXT("spark.png"), TEXT("png"));
+	if (h == 0 || h == -1)
+		return -2;
+	CharacterDraw::SetSparkGraph(h);
 	if (hSoftImageUnits.empty())
 		EnumResourceNames(GetModuleHandle(NULL), TEXT("units"), EnumResNameLoadSoftImageProcW, (LONG_PTR)this);
 	if (hSE == 0)
@@ -38,10 +42,6 @@ int PoppoScene::Init()
 		hSE = LoadSoundMemByResource(TEXT("click.wav"), TEXT("se"));
 		if (hSE == 0 || hSE == -1)
 			return -1;
-		int h = LoadGraphToResource(TEXT("spark.png"), TEXT("png"));
-		if (h == 0 || h == -1)
-			return -2;
-		CharacterDraw::SetSparkGraph(h);
 	}
 	return SceneObject::Init();
 }
@@ -109,9 +109,9 @@ int PoppoScene::End()
 	for (size_t i = 0; i < hGraphUnits.size(); i++)
 		DeleteGraph(hGraphUnits[i]);
 	hGraphUnits.clear();
+	DeleteGraph(CharacterDraw::GetSparkGraph());
 	if (IsRunning() == FALSE)
 	{
-		DeleteGraph(CharacterDraw::GetSparkGraph());
 		DeleteSoundMem(hSE);
 		for (size_t i = 0; i < hSoftImageUnits.size(); i++)
 			DeleteSoftImage(hSoftImageUnits[i]);
