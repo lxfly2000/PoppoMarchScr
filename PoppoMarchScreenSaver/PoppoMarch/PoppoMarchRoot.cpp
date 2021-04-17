@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "../resource.h"
 #include <DxLib.h>
+#include <time.h>
 
 #define FADEIN_TIME_MS 1000
 static int fadein_frames = 0;
@@ -40,7 +41,7 @@ int PoppoMarchRoot::Init()
 	AddChild(&bg);
 	AddChild(&bb);
 	AddChild(&pp);
-	SRand(GetNowCount());
+	SRand(time(NULL));
 	if (DxRootScene::Init())
 		return -2;
 	if (optionPlayBgm && hBgm == 0)

@@ -73,7 +73,7 @@ int PoppoScene::RunFrame()
 	for (size_t i = 0; i < GetChildCount();)
 	{
 		CharacterDraw*c = (CharacterDraw*)GetChild(i);
-		if ((i == 0 && GetChildCount()>1 && c->GetPosX() < -poppoWidth) || (c->GetStatus() >= 2))
+		if ((i == 0 && GetChildCount()>1 && c->GetPosX() < -poppoWidth/2) || (c->GetStatus() >= 2))
 		{
 			delete c;
 			RemoveChild(i);
