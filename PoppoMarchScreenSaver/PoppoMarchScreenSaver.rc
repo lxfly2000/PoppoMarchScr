@@ -150,7 +150,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,5,0
+ FILEVERSION 1,0,6,0
  PRODUCTVERSION 1,0,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -168,7 +168,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "lxfly2000"
             VALUE "FileDescription", "Poppo March Screen Saver"
-            VALUE "FileVersion", "1.0.5.0"
+            VALUE "FileVersion", "1.0.6.0"
             VALUE "InternalName", "PoppoMarch.scr"
             VALUE "LegalCopyright", "Copyright (C) 2021 lxfly2000"
             VALUE "OriginalFilename", "PoppoMarchScreenSaver.exe"

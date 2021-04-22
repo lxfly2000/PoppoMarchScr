@@ -23,9 +23,9 @@ void SetRichEditText(HWND h, LPCWSTR text)
 	SetWindowText(h, text);
 	SendMessage(h, EM_SETEVENTMASK, NULL, ENM_LINK);
 	size_t prelen = 0;
+	CHARRANGE cr;
 	while (std::regex_search(str, m, r, std::regex_constants::match_any))
 	{
-		CHARRANGE cr;
 		cr.cpMin = prelen + m.position(0);
 		cr.cpMax = prelen + m.position(0) + m.length(0);
 		SendMessage(h, EM_EXSETSEL, NULL, (LPARAM)&cr);
@@ -38,6 +38,8 @@ void SetRichEditText(HWND h, LPCWSTR text)
 		str = str.substr(m.position(0) + m.length(0));
 		prelen += m.position(0) + m.length(0);
 	}
+	cr.cpMin = cr.cpMax = 0;
+	SendMessage(h, EM_EXSETSEL, NULL, (LPARAM)&cr);
 }
 
 INT_PTR CALLBACK OnRichEditClickMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
