@@ -32,7 +32,7 @@ blankPixelsBottom(0),graphWidth(0),graphHeight(0),jumpHeight(0)
 
 int CharacterDraw::RunFrame()
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, (EXPLODE_EFFECT_TIME_FRAMES - frameCounter) * 255 / EXPLODE_EFFECT_TIME_FRAMES);
+	SetDrawBlendMode(DX_BLENDMODE_ADD, (EXPLODE_EFFECT_TIME_FRAMES - frameCounter) * 255 / EXPLODE_EFFECT_TIME_FRAMES);
 	SceneObject::RunFrame();
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	if (status == 0)

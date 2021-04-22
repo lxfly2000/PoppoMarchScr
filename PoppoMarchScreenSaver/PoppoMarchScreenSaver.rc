@@ -74,7 +74,7 @@ FONT 9, "SimSun", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&OK",IDOK,254,158,50,14
     CONTROL         "",IDC_STATIC_BITMAP,"Static",SS_BITMAP,7,7,6,5
-    CONTROL         "",IDC_RICHEDIT2_MESSAGE,"RichEdit20W",WS_BORDER | WS_TABSTOP | 0x884,86,7,218,148
+    CONTROL         "",IDC_RICHEDIT2_MESSAGE,"RichEdit20W",ES_MULTILINE | ES_READONLY | WS_BORDER | WS_VSCROLL | WS_TABSTOP,86,7,218,148
 END
 
 
@@ -150,7 +150,7 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,4,0
+ FILEVERSION 1,0,5,0
  PRODUCTVERSION 1,0,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -168,7 +168,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "lxfly2000"
             VALUE "FileDescription", "Poppo March Screen Saver"
-            VALUE "FileVersion", "1.0.4.0"
+            VALUE "FileVersion", "1.0.5.0"
             VALUE "InternalName", "PoppoMarch.scr"
             VALUE "LegalCopyright", "Copyright (C) 2021 lxfly2000"
             VALUE "OriginalFilename", "PoppoMarchScreenSaver.exe"
