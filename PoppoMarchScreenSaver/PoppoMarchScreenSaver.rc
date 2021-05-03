@@ -131,26 +131,11 @@ IDB_BITMAP_BANNER       BITMAP                  "banner.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog Info
-//
-
-IDD_DIALOG_SETTINGS DLGINIT
-BEGIN
-    IDC_COMBO_ANIM_SPEED, 0x403, 2, 0
-0x0031, 
-    IDC_COMBO_ANIM_SPEED, 0x403, 2, 0
-0x0032, 
-    0
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,0
+ FILEVERSION 1,0,7,0
  PRODUCTVERSION 1,0,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -168,7 +153,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "lxfly2000"
             VALUE "FileDescription", "Poppo March Screen Saver"
-            VALUE "FileVersion", "1.0.6.0"
+            VALUE "FileVersion", "1.0.7.0"
             VALUE "InternalName", "PoppoMarch.scr"
             VALUE "LegalCopyright", "Copyright (C) 2021 lxfly2000"
             VALUE "OriginalFilename", "PoppoMarchScreenSaver.exe"
