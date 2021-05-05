@@ -4,6 +4,7 @@ class FPSMeter:public SceneObject
 {
 public:
 	FPSMeter();
+	//这个主要用来提示用户当实际帧速率与设计帧速率不符时发出警告
 	void SetDesignFPS(int fps);
 	int RunFrame()override;
 	float CalcFPS();
