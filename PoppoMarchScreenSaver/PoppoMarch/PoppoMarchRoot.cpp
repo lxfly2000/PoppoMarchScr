@@ -8,6 +8,9 @@
 #define FADEIN_TIME_MS 1000
 static int fadein_frames = 0;
 static int fadein_counter = 0;
+static ULONGLONG frameTimeMs = 0;
+static const ULONGLONG frameTimeAdvance[] = { 17,17,16 };//当FPS为60时的步进间隔时间序列（毫秒）
+static int frameTimeAdvanceIndex = 0;
 
 PoppoMarchRoot::PoppoMarchRoot():DxRootScene(),
 ktEsc(KEY_INPUT_ESCAPE), ktSpace(KEY_INPUT_SPACE), ktEnter(KEY_INPUT_RETURN), ktF11(KEY_INPUT_F11),
@@ -42,16 +45,6 @@ int PoppoMarchRoot::Init()
 	AddChild(&bb);
 	AddChild(&pp);
 	SRand(time(NULL));
-	if (GetRefreshRate() != DESIGN_FPS)
-	{
-		//由于现在（2020年之后）出现了越来越多的高刷新率电脑，VSync估计是没啥用了
-		//但这样也有个不是很明显的BUG，画面可能会出现轻微的撕裂现象
-		//必须在Init前调用
-		SetWaitVSyncFlag(FALSE);
-#ifdef _DEBUG
-		AppLogAdd(TEXT("关闭VSync.\n"));
-#endif
-	}
 	if (DxRootScene::Init())
 		return -2;
 	fpsMeter.SetDesignFPS(DESIGN_FPS);
@@ -72,14 +65,15 @@ int PoppoMarchRoot::Init()
 			PlaySoundMem(hBgm, DX_PLAYTYPE_LOOP);
 		}
 	}
+	frameTimeMs = GetNowCount();
 	return 0;
 }
 
 int PoppoMarchRoot::RunFrame()
 {
-	ClearDrawScreen();
 	if (ProcessInput() == 1)
 		return 0;
+	ClearDrawScreen();
 	if (fadein_counter < fadein_frames)
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255 * fadein_counter / fadein_frames);
 	if (SceneObject::RunFrame())
@@ -93,21 +87,10 @@ int PoppoMarchRoot::RunFrame()
 	DrawFrame();
 	if (ScreenFlip() == -1)
 		return -2;
-	if (DESIGN_FPS != GetRefreshRate())
-	{
-		static int lastFrameTimeMs = 0, srem = 0;
-		int frameTimeMs = GetNowCount();
-		div_t dv = div(1000 - (frameTimeMs - lastFrameTimeMs) * DESIGN_FPS, DESIGN_FPS);
-		if (lastFrameTimeMs)
-			WaitTimer(dv.quot);//由于不再等待VSync，需要自己等待1/60秒
-		srem += dv.rem;
-		if (srem >= DESIGN_FPS)
-		{
-			srem -= DESIGN_FPS;
-			WaitTimer(1);
-		}
-		lastFrameTimeMs = GetNowCount();
-	}
+	//由于现在（2020年之后）出现了越来越多的高刷新率电脑，需要将过高的FPS限制在60
+	frameTimeMs += frameTimeAdvance[frameTimeAdvanceIndex];
+	WaitTimer(frameTimeMs - GetNowCount());
+	frameTimeAdvanceIndex = (frameTimeAdvanceIndex + 1) % ARRAYSIZE(frameTimeAdvance);
 	return 0;
 }
 
