@@ -1,15 +1,17 @@
+#define NOMINMAX
 #include "PoppoMarchRoot.h"
 #include "Config.h"
 #include "../resource.h"
 #include <DxLib.h>
 #include <time.h>
+#include <algorithm>
 
 #define DESIGN_FPS 60
 #define FADEIN_TIME_MS 1000
 static int fadein_frames = 0;
 static int fadein_counter = 0;
-static ULONGLONG frameTimeMs = 0;
-static const ULONGLONG frameTimeAdvance[] = { 17,17,16 };//当FPS为60时的步进间隔时间序列（毫秒）
+static LONGLONG frameTimeMs = 0;
+static const LONGLONG frameTimeAdvance[] = { 17,17,16 };//当FPS为60时的步进间隔时间序列（毫秒）
 static int frameTimeAdvanceIndex = 0;
 
 PoppoMarchRoot::PoppoMarchRoot():DxRootScene(),
@@ -29,7 +31,7 @@ int PoppoMarchRoot::Init()
 	optionCloseByClick = ReadInt(KEY_CLOSE_BY_CLICKING, 1);
 	optionPlayBgm = ReadInt(KEY_PLAY_BGM);
 
-	SetResolution(1280, 720);
+	SetResolution(std::min(1280, GetSystemMetrics(SM_CXSCREEN)), std::min(720, GetSystemMetrics(SM_CYSCREEN)));
 	if (!DxLib_IsInit())
 		ChangeWindowed(FALSE);
 	SetAlwaysRunFlag(TRUE);
@@ -89,7 +91,7 @@ int PoppoMarchRoot::RunFrame()
 		return -2;
 	//由于现在（2020年之后）出现了越来越多的高刷新率电脑，需要将过高的FPS限制在60
 	frameTimeMs += frameTimeAdvance[frameTimeAdvanceIndex];
-	WaitTimer(frameTimeMs - GetNowCount());
+	WaitTimer(std::max(0i64, frameTimeMs - GetNowCount()));
 	frameTimeAdvanceIndex = (frameTimeAdvanceIndex + 1) % ARRAYSIZE(frameTimeAdvance);
 	return 0;
 }
