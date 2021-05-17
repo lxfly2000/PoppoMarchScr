@@ -13,7 +13,7 @@
 #define OTHER_UNITS_NEXT_ORDER_RANGE 40
 #define FADE_SCREEN_TIME_MS 250
 
-static int hFadeScreenGraph[21];//其中有一个用于实时显示
+static int hFadeScreenGraph[13];//其中有一个用于实时显示
 static int hFadeScreen;
 static int iFadeScreen;
 static int frameCounter;
