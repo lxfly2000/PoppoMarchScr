@@ -14,7 +14,7 @@
 #define SHADOW_COLOR_EDGE_B 190
 #define SHADOW_EDGE_WIDTH 3.0f
 #define SHADOW_ALPHA 240
-#define EXPLODE_EFFECT_TIME_FRAMES 30
+#define EXPLODE_EFFECT_TIME_MS 500
 #define EXPLODE_EFFECT_MAX_RADIUS 160.0f
 #define EXPLODE_EFFECT_MIN_RADIUS 100.0f
 #define EXPLODE_EFFECT_MIN_OBJECTS 5
@@ -24,14 +24,17 @@
 
 int CharacterDraw::hGraphSpark = 0;
 
-CharacterDraw::CharacterDraw():SceneObject(),frameCounter(0),hGraph(0),hSoftImage(0),status(0),jumpFrames(CHARACTER_DRAW_DEFAULT_SPEED_JUMP_FRAMES),
-posX(0.0f), posY(0.0f), speedX(CHARACTER_DRAW_DEFAULT_SPEED_X), zoom(CHARACTER_DRAW_DEFAULT_ZOOM),
+CharacterDraw::CharacterDraw():SceneObject(),frameCounter(0),hGraph(0),hSoftImage(0),status(0),
+posX(0.0f), posY(0.0f), zoom(CHARACTER_DRAW_DEFAULT_ZOOM),
 blankPixelsBottom(0),graphWidth(0),graphHeight(0),jumpHeight(0)
 {
+	SetJumpMs(CHARACTER_DRAW_DEFAULT_SPEED_JUMP_MS);
+	SetSpeedXBy60FPS(CHARACTER_DRAW_DEFAULT_SPEED_X_BY_60FPS);
 }
 
 int CharacterDraw::RunFrame()
 {
+	int EXPLODE_EFFECT_TIME_FRAMES = EXPLODE_EFFECT_TIME_MS * GetRefreshRate() / 1000;
 	SetDrawBlendMode(DX_BLENDMODE_ADD, (EXPLODE_EFFECT_TIME_FRAMES - frameCounter) * 255 / EXPLODE_EFFECT_TIME_FRAMES);
 	SceneObject::RunFrame();
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
@@ -87,14 +90,14 @@ void CharacterDraw::SetPos(float x, float y)
     posY = y;
 }
 
-void CharacterDraw::SetSpeedX(float v)
+void CharacterDraw::SetSpeedXBy60FPS(float v)
 {
-	speedX = v;
+	speedX = v * 60 / GetRefreshRate();
 }
 
-void CharacterDraw::SetJumpFrames(int n)
+void CharacterDraw::SetJumpMs(int n)
 {
-	jumpFrames = n;
+	jumpFrames = n * GetRefreshRate() / 1000;
 }
 
 void CharacterDraw::SetZoom(float z)
@@ -129,6 +132,7 @@ void CharacterDraw::Explode(int x, int y)
 	frameCounter = 0;
 
 	int nObj = GetRand(EXPLODE_EFFECT_MAX_OBJECTS - EXPLODE_EFFECT_MIN_OBJECTS + 1) + EXPLODE_EFFECT_MIN_OBJECTS;
+	int EXPLODE_EFFECT_TIME_FRAMES = EXPLODE_EFFECT_TIME_MS * GetRefreshRate() / 1000;
 	for (int i = 0; i < nObj; i++)
 	{
 		float zoom = GetRandFloat(EXPLODE_EFFECT_OBJECT_MAX_ZOOM - EXPLODE_EFFECT_OBJECT_MIN_ZOOM, 100) + EXPLODE_EFFECT_OBJECT_MIN_ZOOM;

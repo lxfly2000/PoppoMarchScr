@@ -6,13 +6,9 @@
 #include <time.h>
 #include <algorithm>
 
-#define DESIGN_FPS 60
 #define FADEIN_TIME_MS 1000
 static int fadein_frames = 0;
 static int fadein_counter = 0;
-static LONGLONG frameTimeMs = 0;
-static const LONGLONG frameTimeAdvance[] = { 17,17,16 };//当FPS为60时的步进间隔时间序列（毫秒）
-static int frameTimeAdvanceIndex = 0;
 
 PoppoMarchRoot::PoppoMarchRoot():DxRootScene(),
 ktEsc(KEY_INPUT_ESCAPE), ktSpace(KEY_INPUT_SPACE), ktEnter(KEY_INPUT_RETURN), ktF11(KEY_INPUT_F11),
@@ -49,7 +45,7 @@ int PoppoMarchRoot::Init()
 	SRand(time(NULL));
 	if (DxRootScene::Init())
 		return -2;
-	fpsMeter.SetDesignFPS(DESIGN_FPS);
+	fpsMeter.SetDesignFPS(GetRefreshRate());
 	if (optionPlayBgm && hBgm == 0)
 	{
 		//这个函数只能在DxLib_Init后调用
@@ -67,7 +63,6 @@ int PoppoMarchRoot::Init()
 			PlaySoundMem(hBgm, DX_PLAYTYPE_LOOP);
 		}
 	}
-	frameTimeMs = GetNowCount();
 	return 0;
 }
 
@@ -89,10 +84,6 @@ int PoppoMarchRoot::RunFrame()
 	DrawFrame();
 	if (ScreenFlip() == -1)
 		return -2;
-	//由于现在（2020年之后）出现了越来越多的高刷新率电脑，需要将过高的FPS限制在60
-	frameTimeMs += frameTimeAdvance[frameTimeAdvanceIndex];
-	WaitTimer(std::max(0i64, frameTimeMs - GetNowCount()));
-	frameTimeAdvanceIndex = (frameTimeAdvanceIndex + 1) % ARRAYSIZE(frameTimeAdvance);
 	return 0;
 }
 
@@ -139,7 +130,7 @@ int PoppoMarchRoot::ProcessInput()
 		GetMousePoint(&mouseX, &mouseY);
 		if (mouseX != lastMouseX || mouseY != lastMouseY)
 		{
-			mouseHideCounter = DESIGN_FPS * 5;
+			mouseHideCounter = GetRefreshRate() * 5;
 			SetMouseDispFlag(TRUE);
 			lastMouseX = mouseX;
 			lastMouseY = mouseY;

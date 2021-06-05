@@ -53,7 +53,7 @@ int PoppoScene::RunFrame()
 	if (GetChildCount() == 0 || ((CharacterDraw*)GetChild(GetChildCount() - 1))->GetPosX() + DISTANCE_BETWEEN_CHARACTERS < resolutionWidth + poppoWidth / 2.0f)
 	{
 		CharacterDraw* c = new CharacterDraw();
-		c->SetSpeedX(optionAnimationSpeed + 1.0f);
+		c->SetSpeedXBy60FPS(optionAnimationSpeed + 1.0f);
 		c->SetPos(resolutionWidth + poppoWidth / 2, resolutionHeight - CHARACTER_Y_TO_BOTTOM);
 		if (otherUnitsOrderCounter <= 0)
 		{

@@ -24,15 +24,15 @@ int Bubble::Init()
 int Bubble::RunFrame()
 {
 	float va = GetVelAngle();
+	if (frameCounter % (fps / 2) == 0)
+		SetAccVA(GetRandFloat(BUBBLE_MAX_ACC, 100) * 60 / fps / fps, CalcLineAngle(posX, posY, toX, toY) + DegToRad(GetRand(90)) - DX_PI / 4);
+	//根据公式：F=kv, F=ma, m=ρ4/3Πr3
+	//得知a=kv/(p4/3Nr3)
 	aF = FLUID_FORCE_FACTOR * GetVel() / fps / GetRadius();
 	vX = vX + aX - aF * cosf(va);
 	vY = vY + aY - aF * sinf(va);
 	posX += vX;
 	posY += vY;
-	//根据公式：F=kv, F=ma, m=ρ4/3Πr3
-	//得知a=kv/(p4/3Nr3)
-	if (frameCounter % (fps / 2) == 0)
-		SetAccVA(GetRandFloat(BUBBLE_MAX_ACC,100) / fps, CalcLineAngle(posX, posY, toX, toY) + DegToRad(GetRand(90)) - DX_PI / 4);
 	DrawCircleAA(posX, posY, radius, 50, color);
 #ifdef _DEBUG
 	DrawLineAA(posX, posY, posX + aX*1000, posY + aY*1000, 0xFFFF0000);

@@ -1,8 +1,8 @@
 #pragma once
 #include "Game/SceneObject.h"
 
-#define CHARACTER_DRAW_DEFAULT_SPEED_JUMP_FRAMES 40
-#define CHARACTER_DRAW_DEFAULT_SPEED_X 1.0f
+#define CHARACTER_DRAW_DEFAULT_SPEED_JUMP_MS 667
+#define CHARACTER_DRAW_DEFAULT_SPEED_X_BY_60FPS 1.0f//这仅仅是在60FPS的情况下【一帧】的移动速度！！
 #define CHARACTER_DRAW_DEFAULT_ZOOM 1.0f
 #define CHARACTER_DRAW_DEFAULT_JUMP_HEIGHT_PIXELS 25
 
@@ -13,9 +13,10 @@ public:
 	virtual int RunFrame()override;
 	void SetGraph(int grHandle,int siHandle);
 	void SetPos(float x, float y);
-	void SetSpeedX(float v);
-	//设置跳动的周期帧数
-	void SetJumpFrames(int n);
+	//设置在60FPS时【每帧】的移动速度（像素）
+	void SetSpeedXBy60FPS(float v);
+	//设置跳动的周期毫秒数
+	void SetJumpMs(int n);
 	void SetZoom(float z);
 	bool HitTest(float x, float y);
 	float GetPosX();
