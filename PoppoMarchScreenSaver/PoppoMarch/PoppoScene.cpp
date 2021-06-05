@@ -11,6 +11,12 @@
 #define OTHER_UNITS_START_ORDER 100
 #define OTHER_UNITS_NEXT_ORDER 20
 #define OTHER_UNITS_NEXT_ORDER_RANGE 40
+#define FADE_SCREEN_TIME_MS 250
+
+static int hFadeScreenGraph[13];//其中有一个用于实时显示
+static int hFadeScreen;
+static int iFadeScreen;
+static int frameCounter;
 
 PoppoScene::PoppoScene():hSE(0),indexPoppo(0),lastClick(0),optionAnimationSpeed(0),otherUnitsOrderCounter(0),poppoWidth(0),poppoHeight(0),
 resolutionWidth(0),resolutionHeight(0)
@@ -43,11 +49,25 @@ int PoppoScene::Init()
 		if (hSE == 0 || hSE == -1)
 			return -1;
 	}
+	if (optionAnimationSpeed > 3)
+	{
+		hFadeScreen = MakeScreen(resolutionWidth, resolutionHeight, TRUE);
+		for (int i = 0; i < ARRAYSIZE(hFadeScreenGraph); i++)
+			hFadeScreenGraph[i] = MakeGraph(resolutionWidth, resolutionHeight);
+		iFadeScreen = 0;
+		frameCounter = 0;
+	}
 	return SceneObject::Init();
 }
 
 int PoppoScene::RunFrame()
 {
+	int previousDrawScreen = GetDrawScreen();
+	if (optionAnimationSpeed >3)
+	{
+		SetDrawScreen(hFadeScreen);
+		ClearDrawScreen();
+	}
 	if (SceneObject::RunFrame())
 		return -1;
 	if (GetChildCount() == 0 || ((CharacterDraw*)GetChild(GetChildCount() - 1))->GetPosX() + DISTANCE_BETWEEN_CHARACTERS < resolutionWidth + poppoWidth / 2.0f)
@@ -101,6 +121,47 @@ int PoppoScene::RunFrame()
 		}
 	}
 	lastClick = click;
+	if (optionAnimationSpeed >3)
+	{
+		GetDrawScreenGraph(0, 0, resolutionWidth, resolutionHeight, hFadeScreenGraph[iFadeScreen]);
+		SetDrawScreen(previousDrawScreen);
+		int previousBlend, previousParam;
+		GetDrawBlendMode(&previousBlend, &previousParam);
+		if (optionAnimationSpeed == 5)//倒序显示
+		{
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+			DrawGraph(0, 0, hFadeScreenGraph[iFadeScreen], TRUE);
+			for (int i = ARRAYSIZE(hFadeScreenGraph) - 1; i >= 1; i--)
+			{
+				//255/(ARRAYSIZE(hFadeScreenGraph)-1)*(i-1)+255/(ARRAYSIZE(hFadeScreenGraph)-1)*(1-frameCounter/(FADE_SCREEN_TIME_MS*GetRefreshRate()/(ARRAYSIZE(hFadeScreenGraph)-1)/1000))
+				int alpha = 255 * i / (ARRAYSIZE(hFadeScreenGraph) - 1) - 255 * frameCounter * 1000 / (FADE_SCREEN_TIME_MS*GetRefreshRate());
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)(0.0007*(exp(alpha*0.05) - 1)));//指数变化
+				DrawGraph(0, 0, hFadeScreenGraph[(iFadeScreen + i) % ARRAYSIZE(hFadeScreenGraph)], TRUE);
+			}
+		}
+		else//顺序显示
+		{
+			for (int i = 1; i < ARRAYSIZE(hFadeScreenGraph); i++)
+			{
+				//255/(ARRAYSIZE(hFadeScreenGraph)-1)*(i-1)+255/(ARRAYSIZE(hFadeScreenGraph)-1)*(1-frameCounter/(FADE_SCREEN_TIME_MS*GetRefreshRate()/(ARRAYSIZE(hFadeScreenGraph)-1)/1000))
+				int alpha = 255 * i / (ARRAYSIZE(hFadeScreenGraph) - 1) - 255 * frameCounter * 1000 / (FADE_SCREEN_TIME_MS*GetRefreshRate());
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)(0.0007*(exp(alpha*0.05) - 1)));//指数变化
+				DrawGraph(0, 0, hFadeScreenGraph[(iFadeScreen + i) % ARRAYSIZE(hFadeScreenGraph)], TRUE);
+			}
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+			DrawGraph(0, 0, hFadeScreenGraph[iFadeScreen], TRUE);
+		}
+		SetDrawBlendMode(previousBlend, previousParam);
+		if (ARRAYSIZE(hFadeScreenGraph) > 1)
+		{
+			frameCounter++;
+			if (frameCounter *(ARRAYSIZE(hFadeScreenGraph) - 1) * 1000 >= FADE_SCREEN_TIME_MS * GetRefreshRate())
+			{
+				frameCounter = 0;
+				iFadeScreen = (iFadeScreen + 1) % ARRAYSIZE(hFadeScreenGraph);
+			}
+		}
+	}
 	return 0;
 }
 

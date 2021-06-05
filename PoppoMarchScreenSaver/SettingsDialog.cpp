@@ -81,6 +81,8 @@ void OnInitSettingsDialog(HWND hwnd)
 	ComboBox_AddString(hCombo, TEXT("Normal"));
 	ComboBox_AddString(hCombo, TEXT("Fast"));
 	ComboBox_AddString(hCombo, TEXT("Very Fast"));
+	ComboBox_AddString(hCombo, TEXT("Back Blur"));
+	ComboBox_AddString(hCombo, TEXT("Front Blur"));
 	ComboBox_SetCurSel(hCombo, ReadInt(KEY_ANIMATION_SPEED));
 	CheckDlgButton(hwnd, IDC_CHECK_SHOW_FPS, ReadInt(KEY_SHOW_FPS) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwnd, IDC_CHECK_PLAY_BGM, ReadInt(KEY_PLAY_BGM) ? BST_CHECKED : BST_UNCHECKED);
